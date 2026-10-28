@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Orders 📦</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .filter-card { background: #f9f9f9; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Orders Directory 📦</h1>
+
+    <!-- Pure HTML Filter Form -->
+    <div class="filter-card">
+        <form action="/orders" method="GET">
+            <label for="status"><strong>Filter by Status:</strong></label>
+            <select name="status" id="status">
+                <option value="ALL" {% if selected_status == 'ALL' %}selected{% endif %}>All Statuses</option>
+                <option value="Completed" {% if selected_status == 'Completed' %}selected{% endif %}>Completed</option>
+                <option value="Pending" {% if selected_status == 'Pending' %}selected{% endif %}>Pending</option>
+                <option value="Cancelled" {% if selected_status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+            </select>
+            <button type="submit">Filter Orders 🔍</button>
+            <a href="/orders">Reset</a>
+        </form>
+    </div>
+
+    <!-- Dynamic Orders Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID 🆔</th>
+                <th>Customer Name 👤</th>
+                <th>Order Date 📅</th>
+                <th>Total Amount 💵</th>
+                <th>Status 🏷️</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.order_date }}</td>
+                <td>${{ order.total_amount }}</td>
+                <td>{{ order.status }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">No orders found for this status filter.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
